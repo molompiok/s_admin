@@ -3,7 +3,8 @@
     "dev": "vike dev",
     "build": "vike build",
     "preview": "vike build && vike preview",
-    "prod": "vike build && node ./dist/server/index.mjs"
+    "prod": "vike build && node ./dist/server/index.mjs",
+    "server:prod": "node ./dist/server/index.mjs"
   },
   "dependencies": {
     "@photonjs/express": "^0.1.13",
