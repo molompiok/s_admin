@@ -6,6 +6,11 @@ import vikeReact from "vike-react/config";
 // https://vike.dev/config
 
 export default {
+   clientRouting: true,
+   passToClient: [
+    'serverUrl',
+    'serverApiUrl',
+  ],
   // https://vike.dev/head-tags
   title: "My Vike App",
   description: "Demo showcasing Vike",
