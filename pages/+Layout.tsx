@@ -6,6 +6,8 @@ import { LayoutDashboard, Store, Users, Network, Activity, LogOut, Search, Bell,
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const pageContext = usePageContext();
+    console.log({serverUrl:pageContext.serverUrl,serverApiUrl:pageContext.serverApiUrl });
+    
     const isLoginPage = pageContext.urlPathname === "/login";
 
     if (isLoginPage) {

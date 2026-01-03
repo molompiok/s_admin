@@ -15,5 +15,9 @@ export const createTodoHandler: UniversalHandler<Universal.Context & object> = e
       },
     });
   },
-  { name: "s_admin:todo-handler", path: `/api/todo/create`, method: ["GET", "POST"], immutable: false },
+  { name: "s_admin:todo-handler", 
+    path: `/api/todo/create`, 
+    method: ["GET", "POST"], 
+    immutable: false 
+  },
 );

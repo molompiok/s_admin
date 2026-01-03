@@ -1,16 +1,20 @@
 import { ApiResponse, LoginResponse, User, Store, WalletBalance, TransactionResponse, ServiceStatus, MonitoringResponse } from './Interfaces';
+const isProduction = process.env.NODE_ENV === 'production';
 
 class SublymusAdminApi {
     private baseUrl: string = '';
     private token: string | null = null;
 
+    setBaseUrl(url: string){
+        this.baseUrl = url;
+    }
     constructor() {
         if (typeof window !== 'undefined') {
             this.token = localStorage.getItem('s_admin_token');
             // In dev, we might want to hardcode or use env
-            this.baseUrl = window.location.origin.includes('localhost')
-                ? 'http://localhost:5555'
-                : `https://server.${window.location.host.split('.').slice(-2).join('.')}`;
+            this.baseUrl = isProduction
+                ? `https://server.sublymus.com`
+                : 'http://localhost:5555';
         }
     }
 
