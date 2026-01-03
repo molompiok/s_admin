@@ -89,10 +89,12 @@ const styles: { [key: string]: React.CSSProperties } = {
         backgroundColor: '#fff',
         borderRadius: '12px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-        overflow: 'hidden',
+        overflowX: 'auto',
+        width: '100%',
     },
     table: {
         width: '100%',
+        minWidth: '700px',
         borderCollapse: 'collapse',
         textAlign: 'left',
     },

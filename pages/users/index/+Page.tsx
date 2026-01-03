@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../../api/SublymusApi';
 import { User } from '../../../api/Interfaces';
+import { navigate } from 'vike/client/router';
 
 export default function Page() {
     const [users, setUsers] = useState<User[]>([]);
@@ -38,12 +39,17 @@ export default function Page() {
                             <th style={styles.th}>Statut</th>
                             <th style={styles.th}>Vérifié</th>
                             <th style={styles.th}>Date d'inscription</th>
-                            <th style={styles.th}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {(users || []).map(user => (
-                            <tr key={user.id} style={styles.tr}>
+                            <tr
+                                key={user.id}
+                                style={styles.tr}
+                                onClick={() => navigate(`/users/${user.id}`)}
+                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                            >
                                 <td style={styles.td}>{user.full_name || 'N/A'}</td>
                                 <td style={styles.td}>{user.email}</td>
                                 <td style={styles.td}>
@@ -58,9 +64,6 @@ export default function Page() {
                                 </td>
                                 <td style={styles.td}>{user.email_verified_at ? '✅' : '❌'}</td>
                                 <td style={styles.td}>{new Date(user.created_at).toLocaleDateString()}</td>
-                                <td style={styles.td}>
-                                    <a href={`/users/${user.id}`} style={styles.link}>Détails</a>
-                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -84,10 +87,12 @@ const styles: { [key: string]: React.CSSProperties } = {
         backgroundColor: '#fff',
         borderRadius: '12px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-        overflow: 'hidden',
+        overflow: 'auto',
+        width: '100%',
     },
     table: {
         width: '100%',
+        minWidth: '700px',
         borderCollapse: 'collapse',
         textAlign: 'left',
     },
@@ -104,6 +109,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     tr: {
         transition: 'background-color 0.2s',
+        cursor: 'pointer',
     },
     badge: {
         padding: '2px 8px',
@@ -117,3 +123,4 @@ const styles: { [key: string]: React.CSSProperties } = {
         fontWeight: '500',
     }
 };
+

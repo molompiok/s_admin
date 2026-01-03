@@ -215,7 +215,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
         gap: '20px',
     },
     card: {
@@ -223,6 +223,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         padding: '24px',
         borderRadius: '12px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+        minWidth: 0,
     },
     cardTitle: {
         fontSize: '18px',
@@ -236,10 +237,12 @@ const styles: { [key: string]: React.CSSProperties } = {
         justifyContent: 'space-between',
         marginBottom: '12px',
         fontSize: '15px',
+        gap: '10px',
     },
     label: {
         color: '#666',
         fontWeight: '500',
+        whiteSpace: 'nowrap',
     },
     balance: {
         fontWeight: '700',
@@ -262,6 +265,8 @@ const styles: { [key: string]: React.CSSProperties } = {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        gap: '10px',
+        flexWrap: 'wrap',
     },
     subText: {
         fontSize: '12px',
@@ -282,9 +287,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     tableContainer: {
         overflowX: 'auto',
+        width: '100%',
     },
     table: {
         width: '100%',
+        minWidth: '600px',
         borderCollapse: 'collapse',
         marginTop: '10px',
     },

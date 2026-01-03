@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../../api/SublymusApi';
 import { Store, WalletBalance, Transaction } from '../../../api/Interfaces';
 import { usePageContext } from 'vike-react/usePageContext';
+import { ExternalLink, ArrowLeft } from 'lucide-react';
 
 function TransactionTable({ transactions }: { transactions: Transaction[] }) {
     if (transactions.length === 0) return <p>Aucune transaction trouvée.</p>;
@@ -73,11 +74,29 @@ export default function Page() {
     if (error) return <div style={{ color: 'red' }}>{error}</div>;
     if (!store) return <div>Boutique non trouvée.</div>;
 
+    const storeUrl = store.domain_names && store.domain_names.length > 0
+        ? `https://${store.domain_names[0]}`
+        : `https://${store.slug}.sublymus.com`;
+
     return (
         <div>
             <div style={styles.header}>
-                <a href="/stores" style={styles.backLink}>← Retour aux boutiques</a>
-                <h1 style={styles.title}>{store.name}</h1>
+                <a href="/stores" style={styles.backLink}>
+                    <ArrowLeft size={16} style={{ marginRight: '5px' }} />
+                    Retour aux boutiques
+                </a>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 style={styles.title}>{store.name}</h1>
+                    <a
+                        href={storeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={styles.visitButton}
+                    >
+                        <ExternalLink size={18} style={{ marginRight: '8px' }} />
+                        Visiter la boutique
+                    </a>
+                </div>
             </div>
 
             <div style={styles.grid}>
@@ -191,9 +210,21 @@ const styles: { [key: string]: React.CSSProperties } = {
         fontWeight: '700',
         margin: 0,
     },
+    visitButton: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '10px 20px',
+        backgroundColor: '#000',
+        color: '#fff',
+        borderRadius: '8px',
+        textDecoration: 'none',
+        fontWeight: '600',
+        fontSize: '14px',
+        transition: 'background-color 0.2s',
+    },
     grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
         gap: '20px',
     },
     card: {
@@ -201,6 +232,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         padding: '24px',
         borderRadius: '12px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+        minWidth: 0,
     },
     cardTitle: {
         fontSize: '18px',
@@ -214,10 +246,12 @@ const styles: { [key: string]: React.CSSProperties } = {
         justifyContent: 'space-between',
         marginBottom: '12px',
         fontSize: '15px',
+        gap: '10px',
     },
     label: {
         color: '#666',
         fontWeight: '500',
+        whiteSpace: 'nowrap',
     },
     balance: {
         fontWeight: '700',
@@ -233,9 +267,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     tableContainer: {
         overflowX: 'auto',
+        width: '100%',
     },
     table: {
         width: '100%',
+        minWidth: '600px',
         borderCollapse: 'collapse',
         marginTop: '10px',
     },

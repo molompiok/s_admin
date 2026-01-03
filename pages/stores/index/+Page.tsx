@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../../api/SublymusApi';
 import { Store } from '../../../api/Interfaces';
+import { navigate } from 'vike/client/router';
 
 export default function Page() {
     const [stores, setStores] = useState<Store[]>([]);
@@ -60,12 +61,17 @@ export default function Page() {
                             <th style={styles.th}>Statut</th>
                             <th style={styles.th}>Actif</th>
                             <th style={styles.th}>En cours</th>
-                            <th style={styles.th}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {(stores || []).map(store => (
-                            <tr key={store.id} style={styles.tr}>
+                            <tr
+                                key={store.id}
+                                style={styles.tr}
+                                onClick={() => navigate(`/stores/${store.id}`)}
+                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                            >
                                 <td style={styles.td}>{store.name}</td>
                                 <td style={styles.td}>{store.slug}</td>
                                 <td style={styles.td}>
@@ -80,9 +86,6 @@ export default function Page() {
                                 </td>
                                 <td style={styles.td}>{store.is_active ? '✅' : '❌'}</td>
                                 <td style={styles.td}>{store.is_running ? '✅' : '❌'}</td>
-                                <td style={styles.td}>
-                                    <a href={`/stores/${store.id}`} style={styles.link}>Détails</a>
-                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -104,12 +107,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     searchForm: {
         display: 'flex',
+        flexDirection: 'row',
         gap: '10px',
         marginBottom: '20px',
         maxWidth: '500px',
+        flexWrap: 'wrap',
     },
     searchInput: {
-        flex: 1,
+        flex: '1 1 200px',
         padding: '10px 15px',
         borderRadius: '8px',
         border: '1px solid #ddd',
@@ -124,15 +129,18 @@ const styles: { [key: string]: React.CSSProperties } = {
         borderRadius: '8px',
         cursor: 'pointer',
         fontWeight: '600',
+        whiteSpace: 'nowrap',
     },
     tableContainer: {
         backgroundColor: '#fff',
         borderRadius: '12px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-        overflow: 'hidden',
+        overflowX: 'auto',
+        width: '100%',
     },
     table: {
         width: '100%',
+        minWidth: '600px',
         borderCollapse: 'collapse',
         textAlign: 'left',
     },
@@ -149,6 +157,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     tr: {
         transition: 'background-color 0.2s',
+        cursor: 'pointer',
     },
     badge: {
         padding: '2px 8px',
@@ -162,3 +171,4 @@ const styles: { [key: string]: React.CSSProperties } = {
         fontWeight: '500',
     }
 };
+
