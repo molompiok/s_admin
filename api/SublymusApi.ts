@@ -5,7 +5,7 @@ class SublymusAdminApi {
     private baseUrl: string = '';
     private token: string | null = null;
 
-    setBaseUrl(url: string){
+    setBaseUrl(url: string) {
         this.baseUrl = url;
     }
     constructor() {
@@ -99,6 +99,12 @@ class SublymusAdminApi {
             }
             return this._request<{ user: User, roles: string[] }>(path);
         },
+        socialAuthBackendSource: (params?: { provider: string, redirectSuccess?: string, redirectError?: string }) => {
+            const success = params?.redirectSuccess && `client_success=${encodeURIComponent(params?.redirectSuccess)}`;
+            const error = params?.redirectError && `client_error=${encodeURIComponent(params?.redirectError)}`;
+            const provider = params?.provider || 'google';
+            return `${this.baseUrl}/auth/${provider}/redirect?${[success, error].filter(Boolean).join('&')}`;
+        }
     };
 
     stores = {

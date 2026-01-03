@@ -6,20 +6,31 @@ export default function Page() {
     const [stores, setStores] = useState<Store[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [search, setSearch] = useState('');
+
+    const fetchStores = async (searchTerm = '') => {
+        setLoading(true);
+        try {
+            const response = await api.stores.list({
+                request_all: true,
+                search: searchTerm
+            });
+            setStores(response.list);
+        } catch (err: any) {
+            setError(err.message || 'Erreur lors du chargement des boutiques.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchStores = async () => {
-            try {
-                const response = await api.stores.list();
-                setStores(response.list);
-            } catch (err: any) {
-                setError(err.message || 'Erreur lors du chargement des boutiques.');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchStores();
     }, []);
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        fetchStores(search);
+    };
 
     if (loading) return <div>Chargement...</div>;
     if (error) return <div style={{ color: 'red' }}>{error}</div>;
@@ -28,6 +39,17 @@ export default function Page() {
         <div>
             <h1 style={styles.title}>Boutiques</h1>
             <p style={styles.subtitle}>Liste de toutes les boutiques créées sur la plateforme</p>
+
+            <form onSubmit={handleSearch} style={styles.searchForm}>
+                <input
+                    type="text"
+                    placeholder="Rechercher par nom, titre ou ID (#id)..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    style={styles.searchInput}
+                />
+                <button type="submit" style={styles.searchButton}>Rechercher</button>
+            </form>
 
             <div style={styles.tableContainer}>
                 <table style={styles.table}>
@@ -79,6 +101,29 @@ const styles: { [key: string]: React.CSSProperties } = {
     subtitle: {
         color: '#666',
         marginBottom: '30px',
+    },
+    searchForm: {
+        display: 'flex',
+        gap: '10px',
+        marginBottom: '20px',
+        maxWidth: '500px',
+    },
+    searchInput: {
+        flex: 1,
+        padding: '10px 15px',
+        borderRadius: '8px',
+        border: '1px solid #ddd',
+        fontSize: '14px',
+        outline: 'none',
+    },
+    searchButton: {
+        padding: '10px 20px',
+        backgroundColor: '#000',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        fontWeight: '600',
     },
     tableContainer: {
         backgroundColor: '#fff',

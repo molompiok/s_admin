@@ -44,11 +44,11 @@ function startApp() {
     //   process.exit(0);
     // });
     // Forcer la fermeture après un délai si le serveur ne se ferme pas
-    setTimeout(async () => {
+    // setTimeout(async () => {
       console.error(`[Admin Server ${SERVICE_ID}] Arrêt forcé après timeout.`);
       await closeQueue();
       process.exit(1);
-    }, 10000); // 10 secondes timeout
+    // }, 10000); // 10 secondes timeout
   };
 
   process.on('SIGTERM', shutdown);

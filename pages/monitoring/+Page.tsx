@@ -36,7 +36,7 @@ export default function MonitoringPage() {
 
     useEffect(() => {
         fetchStats();
-        const interval = setInterval(fetchStats, 5000);
+        const interval = setInterval(fetchStats, 2*60*1000);
         return () => clearInterval(interval);
     }, []);
 
